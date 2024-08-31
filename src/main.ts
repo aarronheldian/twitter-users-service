@@ -1,15 +1,22 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
+import env from "./utils/env";
+import { mongoConnect } from "./utils/mongoose";
+import cookieParser from "cookie-parser";
+import { middleWareCheckorigin } from "./middlewares/middleware";
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+
+mongoConnect();
+
+app.use(express.json());
+app.use(middleWareCheckorigin);
+app.use(cookieParser());
+// app.use('/user', userRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+app.listen(env.PORT, () => {
+  console.log(`[server]: server is running at http://localhost:${env.PORT}`);
 });
