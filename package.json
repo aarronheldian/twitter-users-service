@@ -1,5 +1,5 @@
 {
-  "name": "twitter-user-service",
+  "name": "twitter-users-service",
   "version": "1.0.0",
   "main": "dist/main.ts",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aarronheldian/twitter-user-service.git"
+    "url": "git+https://github.com/aarronheldian/twitter-users-service.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aarronheldian/twitter-user-service/issues"
+    "url": "https://github.com/aarronheldian/twitter-users-service/issues"
   },
-  "homepage": "https://github.com/aarronheldian/twitter-user-service#readme",
+  "homepage": "https://github.com/aarronheldian/twitter-users-service#readme",
   "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",

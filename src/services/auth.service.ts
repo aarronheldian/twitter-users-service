@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { IUser, IUserDocument } from "../interfaces/user.types";
+import { IUser, IUserDocument } from "../interfaces/users.types";
 import {
   IAuth,
   IRequestLogin,
@@ -8,7 +8,7 @@ import {
 import ErrorResponse from "../utils/errorResponse";
 import env from "../utils/env";
 import authRepository from "../repositories/auth.repository";
-import userRepository from "../repositories/user.repository";
+import usersRepository from "../repositories/users.repository";
 
 const authService = {
   register: async (payload: IRequestRegister) => {
@@ -30,12 +30,12 @@ const authService = {
       followers: [],
       following: [],
     };
-    const user = await userRepository.insert(data);
+    const user = await usersRepository.insert(data);
     return user;
   },
   login: async (payload: IRequestLogin) => {
     const { email, password } = payload;
-    const user = await userRepository.findByEmailOrHandle(email);
+    const user = await usersRepository.findByEmailOrHandle(email);
     if (!user) throw new ErrorResponse("User not found.", 404);
     const isPasswordMatched = await user.comparePassword(password);
     if (!isPasswordMatched)

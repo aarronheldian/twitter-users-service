@@ -48,7 +48,7 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(middleWareCheckorigin);
 
-app.use("/api/auth", authRoute);
+app.use("/auth/v1", authRoute);
 
 app.use(middleWareErrorHandler);
 

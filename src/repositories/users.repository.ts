@@ -1,4 +1,4 @@
-import { IUser } from "../interfaces/user.types";
+import { IUser } from "../interfaces/users.types";
 import UserModel from "./models/user.schema";
 
 const userRepository = {

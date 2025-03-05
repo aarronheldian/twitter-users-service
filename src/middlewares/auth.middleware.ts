@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import ErrorResponse from "../utils/errorResponse";
 import env from "../utils/env";
 import authService from "../services/auth.service";
-import userRepository from "../repositories/user.repository";
+import usersRepository from "../repositories/users.repository";
 
 export const isAuthenticated = async (
   req: Request,
@@ -15,7 +15,7 @@ export const isAuthenticated = async (
       accessToken,
       env.JWT_ACCESS_SECRET
     );
-    const user = await userRepository.findById(decodedAccessToken.sub);
+    const user = await usersRepository.findById(decodedAccessToken.sub);
 
     if (!user) {
       return next(
@@ -35,7 +35,7 @@ export const isAuthenticated = async (
           activeRefreshToken.refreshToken,
           env.JWT_REFRESH_SECRET
         );
-        const user = await userRepository.findById(decodedRefreshToken.sub);
+        const user = await usersRepository.findById(decodedRefreshToken.sub);
 
         if (!user) {
           return next(

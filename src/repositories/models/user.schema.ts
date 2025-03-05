@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { IUserDocument } from "../../interfaces/user.types";
+import { IUserDocument } from "../../interfaces/users.types";
 
-const userSchema = new Schema({
+const usersSchema = new Schema({
   fullName: {
     type: String,
     trim: true,
@@ -57,7 +57,7 @@ const userSchema = new Schema({
 });
 
 // Middleware to hash password before saving
-userSchema.pre("save", async function (next) {
+usersSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -67,21 +67,21 @@ userSchema.pre("save", async function (next) {
 });
 
 // Method to compare passwords
-userSchema.methods.comparePassword = async function (
+usersSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Index for optimizing search on email and handle
-userSchema.index({ email: 1, handle: 1 });
+usersSchema.index({ email: 1, handle: 1 });
 
 // Update `updatedAt` field on save
-userSchema.pre("save", function (next) {
+usersSchema.pre("save", function (next) {
   this.updatedAt = new Date();
   next();
 });
 
-const UserModel = model<IUserDocument>("User", userSchema);
+const UsersModel = model<IUserDocument>("Users", usersSchema);
 
-export default UserModel;
+export default UsersModel;
