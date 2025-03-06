@@ -11,6 +11,7 @@ const env = cleanEnv(process.env, {
   JWT_REFRESH_LIFETIME: num(),
   BASE_URL: host(),
   ISSUER: str(),
+  ALLOWED_ORIGIN: str(),
 });
 
 export default env;

@@ -4,10 +4,10 @@ import {
   IAuth,
   IRequestLogin,
   IRequestRegister,
-} from "../interfaces/auth.types";
+} from "../interfaces/auths.types";
 import ErrorResponse from "../utils/errorResponse";
 import env from "../utils/env";
-import authRepository from "../repositories/auth.repository";
+import authsRepository from "../repositories/auths.repository";
 import usersRepository from "../repositories/users.repository";
 
 const authService = {
@@ -27,15 +27,15 @@ const authService = {
         alt: "",
         url: "",
       },
-      followers: [],
-      following: [],
     };
     const user = await usersRepository.insert(data);
     return user;
   },
   login: async (payload: IRequestLogin) => {
     const { email, password } = payload;
-    const user = await usersRepository.findByEmailOrHandle(email);
+    const user = await usersRepository.findByEmailOrHandle(email, {
+      password: 1,
+    });
     if (!user) throw new ErrorResponse("User not found.", 404);
     const isPasswordMatched = await user.comparePassword(password);
     if (!isPasswordMatched)
@@ -62,23 +62,23 @@ const authService = {
     return token;
   },
   storeRefreshToken: async (user: IUserDocument, token: string) => {
-    const existingToken = await authRepository.findByUserId(user.id);
+    const existingToken = await authsRepository.findByUserId(user.id);
     if (existingToken) {
-      await authRepository.updateByUserId(user.id, token);
+      await authsRepository.updateByUserId(user.id, token);
     } else {
       const data: IAuth = {
         sub: user.id,
         refreshToken: token,
         iss: env.ISSUER,
       };
-      await authRepository.insert(data);
+      await authsRepository.insert(data);
     }
   },
   verifyToken: async (token: string, secret: string) => {
     return jwt.verify(token, secret, { issuer: env.ISSUER }) as IAuth;
   },
   verifyRefreshTokenExist: async (refreshToken: string) => {
-    const activeRefreshToken = await authRepository.findByRefrehToken(
+    const activeRefreshToken = await authsRepository.findByRefrehToken(
       refreshToken
     );
     if (!activeRefreshToken)

@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { IAuthDocument } from "../../interfaces/auth.types";
+import { IAuthDocument } from "../../interfaces/auths.types";
 
-const authSchema = new Schema({
+const authsSchema = new Schema({
   sub: {
     type: String,
     trim: true,
@@ -21,6 +21,6 @@ const authSchema = new Schema({
   },
 });
 
-const AuthModel = model<IAuthDocument>("Auth", authSchema);
+const AuthsModel = model<IAuthDocument>("Auths", authsSchema);
 
-export default AuthModel;
+export default AuthsModel;

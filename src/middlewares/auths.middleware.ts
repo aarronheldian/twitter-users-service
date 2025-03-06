@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import ErrorResponse from "../utils/errorResponse";
 import env from "../utils/env";
-import authService from "../services/auth.service";
+import authsService from "../services/auths.service";
 import usersRepository from "../repositories/users.repository";
+import { IUser } from "../interfaces/users.types";
 
 export const isAuthenticated = async (
   req: Request,
@@ -11,7 +12,7 @@ export const isAuthenticated = async (
 ) => {
   try {
     const { accessToken } = req.cookies;
-    const decodedAccessToken = await authService.verifyToken(
+    const decodedAccessToken = await authsService.verifyToken(
       accessToken,
       env.JWT_ACCESS_SECRET
     );
@@ -23,15 +24,24 @@ export const isAuthenticated = async (
       );
     }
 
+    res.locals.user = {
+      fullName: user.fullName,
+      handle: user.handle,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      banner: user.banner,
+      birthDate: user.birthDate,
+    } as Omit<IUser, "password">;
+
     return next();
   } catch (error) {
     const { refreshToken } = req.cookies;
     if (refreshToken) {
       try {
-        const activeRefreshToken = await authService.verifyRefreshTokenExist(
+        const activeRefreshToken = await authsService.verifyRefreshTokenExist(
           refreshToken
         );
-        const decodedRefreshToken = await authService.verifyToken(
+        const decodedRefreshToken = await authsService.verifyToken(
           activeRefreshToken.refreshToken,
           env.JWT_REFRESH_SECRET
         );
@@ -42,6 +52,15 @@ export const isAuthenticated = async (
             new ErrorResponse("User not found. Authentication failed.", 401)
           );
         }
+
+        res.locals.user = {
+          fullName: user.fullName,
+          handle: user.handle,
+          email: user.email,
+          profilePicture: user.profilePicture,
+          banner: user.banner,
+          birthDate: user.birthDate,
+        } as Omit<IUser, "password">;
 
         return next();
       } catch (error) {

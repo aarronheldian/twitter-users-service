@@ -1,9 +1,10 @@
-import { IUser } from "../interfaces/users.types";
-import UserModel from "./models/user.schema";
+import { ProjectionType } from "mongoose";
+import { IUser, IUserDocument } from "../interfaces/users.types";
+import UsersModel from "./models/users.schema";
 
-const userRepository = {
+const usersRepository = {
   insert: async (data: IUser) => {
-    const user = new UserModel({
+    const user = new UsersModel({
       fullName: data.fullName,
       handle: data.handle,
       email: data.email,
@@ -13,16 +14,22 @@ const userRepository = {
     const newUser = await user.save();
     return newUser;
   },
-  findByEmailOrHandle: async (query: string) => {
-    const user = await UserModel.findOne({
-      $or: [{ email: query }, { handle: query }],
-    });
+  findByEmailOrHandle: async (
+    query: string,
+    projection: ProjectionType<IUserDocument> = { password: 0 }
+  ) => {
+    const user = await UsersModel.findOne(
+      {
+        $or: [{ email: query }, { handle: query }],
+      },
+      projection
+    );
     return user;
   },
   findById: async (id: string) => {
-    const user = await UserModel.findById(id);
+    const user = await UsersModel.findById(id);
     return user;
   },
 };
 
-export default userRepository;
+export default usersRepository;

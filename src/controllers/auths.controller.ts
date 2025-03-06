@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import authService from "../services/auth.service";
-import { IRequestLogin, IRequestRegister } from "../interfaces/auth.types";
+import authsService from "../services/auths.service";
+import { IRequestLogin, IRequestRegister } from "../interfaces/auths.types";
 import env from "../utils/env";
 
-const authController = {
+const authsController = {
   handleRegister: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const payload: IRequestRegister = req.body;
-      const data = await authService.register(payload);
+      const data = await authsService.register(payload);
       return res.status(201).json({
         success: true,
         code: 201,
@@ -24,19 +24,19 @@ const authController = {
   handleLogin: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const payload: IRequestLogin = req.body;
-      const data = await authService.login(payload);
-      const accessToken = await authService.generateToken(
+      const data = await authsService.login(payload);
+      const accessToken = await authsService.generateToken(
         data,
         env.JWT_ACCESS_SECRET,
         env.JWT_ACCESS_LIFETIME
       );
-      const refreshToken = await authService.generateToken(
+      const refreshToken = await authsService.generateToken(
         data,
         env.JWT_REFRESH_SECRET,
         env.JWT_REFRESH_LIFETIME
       );
 
-      await authService.storeRefreshToken(data, refreshToken);
+      await authsService.storeRefreshToken(data, refreshToken);
 
       return res
         .cookie("accessToken", accessToken, {
@@ -50,18 +50,19 @@ const authController = {
         .status(200)
         .json({
           success: true,
-          code: 201,
+          code: 200,
           message: "Login successful.",
         });
     } catch (error) {
       return next(error);
     }
   },
-  handleMyProfile: async (req: Request, res: Response, next: NextFunction) => {
+  handleMyProfile: async (_: Request, res: Response, next: NextFunction) => {
     try {
       return res.status(200).json({
         success: true,
         code: 200,
+        data: res?.locals?.user,
         message: "Auth successfully.",
       });
     } catch (error) {
@@ -70,4 +71,4 @@ const authController = {
   },
 };
 
-export default authController;
+export default authsController;

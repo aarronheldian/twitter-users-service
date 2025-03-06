@@ -13,8 +13,6 @@ export interface IUser {
     alt: string;
     url: string;
   };
-  followers: string[];
-  following: string[];
   birthDate: Date;
 }
 

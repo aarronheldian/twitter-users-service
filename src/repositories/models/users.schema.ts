@@ -43,8 +43,6 @@ const usersSchema = new Schema({
     alt: String,
     url: String,
   },
-  followers: [Schema.Types.ObjectId],
-  following: [Schema.Types.ObjectId],
   birthDate: Date,
   createdAt: {
     type: Date,

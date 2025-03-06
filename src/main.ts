@@ -10,7 +10,8 @@ import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import authRoute from "./routes/auth.route";
+import authsRoute from "./routes/auths.route";
+import usersRoute from "./routes/users.route";
 
 const app: Express = express();
 app.set("trust proxy", 1);
@@ -48,7 +49,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(middleWareCheckorigin);
 
-app.use("/auth/v1", authRoute);
+app.use("/auths/v1", authsRoute);
+app.use("/users/v1", usersRoute);
 
 app.use(middleWareErrorHandler);
 
