@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import followsService from "../services/follows.service";
+import followsService from "@/services/follows.service";
 
 const followsController = {
   handleFollowUser: async (req: Request, res: Response, next: NextFunction) => {

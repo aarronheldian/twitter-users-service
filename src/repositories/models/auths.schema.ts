@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IAuthDocument } from "../../interfaces/auths.types";
+import { IAuthDocument } from "@/interfaces/auths.types";
 
 const authsSchema = new Schema<IAuthDocument>(
   {

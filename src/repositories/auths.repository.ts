@@ -1,5 +1,5 @@
-import { IAuth } from "../interfaces/auths.types";
-import AuthsModel from "./models/auths.schema";
+import { IAuth } from "@/interfaces/auths.types";
+import AuthsModel from "@/repositories/models/auths.schema";
 
 const authsRepository = {
   insert: async ({ sub, iss, refreshToken }: IAuth) => {

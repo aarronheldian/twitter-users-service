@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IFollowDocument } from "../../interfaces/follows.types";
+import { IFollowDocument } from "@/interfaces/follows.types";
 
 const followsSchema = new Schema<IFollowDocument>(
   {

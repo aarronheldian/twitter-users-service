@@ -1,5 +1,5 @@
-import ErrorResponse from "../utils/errorResponse";
-import usersRepository from "../repositories/users.repository";
+import ErrorResponse from "@/utils/errorResponse";
+import usersRepository from "@/repositories/users.repository";
 
 const usersService = {
   getDetailUser: async (handle: string) => {

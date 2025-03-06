@@ -1,18 +1,18 @@
 import express, { Express } from "express";
-import env from "./utils/env";
-import { mongoConnect } from "./utils/mongoose";
+import env from "@/utils/env";
+import { mongoConnect } from "@/utils/mongoose";
 import cookieParser from "cookie-parser";
-import middleWareCheckorigin from "./middlewares/checkOrigin.middleware";
-import middleWareErrorHandler from "./middlewares/errorHandler.middleware";
+import middleWareCheckorigin from "@/middlewares/checkOrigin.middleware";
+import middleWareErrorHandler from "@/middlewares/errorHandler.middleware";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import authsRoute from "./routes/auths.route";
-import usersRoute from "./routes/users.route";
-import followsRoute from "./routes/follows.route";
+import authsRoute from "@/routes/auths.route";
+import usersRoute from "@/routes/users.route";
+import followsRoute from "@/routes/follows.route";
 
 const app: Express = express();
 app.set("trust proxy", 1);

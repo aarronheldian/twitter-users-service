@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import authsService from "../services/auths.service";
-import { IRequestLogin, IRequestRegister } from "../interfaces/auths.types";
-import env from "../utils/env";
+import authsService from "@/services/auths.service";
+import { IRequestLogin, IRequestRegister } from "@/interfaces/auths.types";
+import env from "@/utils/env";
 
 const authsController = {
   handleRegister: async (req: Request, res: Response, next: NextFunction) => {

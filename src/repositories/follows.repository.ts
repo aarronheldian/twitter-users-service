@@ -1,5 +1,5 @@
-import { IRequestFollow } from "../interfaces/follows.types";
-import FollowsModel from "./models/follow.schema";
+import { IRequestFollow } from "@/interfaces/follows.types";
+import FollowsModel from "@/repositories/models/follow.schema";
 
 const followsRepository = {
   insert: async ({ follower, following }: IRequestFollow) => {

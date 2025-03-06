@@ -1,6 +1,6 @@
 import { ProjectionType } from "mongoose";
-import { IUser } from "../interfaces/users.types";
-import UsersModel from "./models/users.schema";
+import { IUser } from "@/interfaces/users.types";
+import UsersModel from "@/repositories/models/users.schema";
 
 const usersRepository = {
   insert: async (data: IUser) => {

@@ -1,7 +1,7 @@
-import followsRepository from "../repositories/follows.repository";
-import { IRequestFollow } from "../interfaces/follows.types";
-import usersRepository from "../repositories/users.repository";
-import ErrorResponse from "../utils/errorResponse";
+import followsRepository from "@/repositories/follows.repository";
+import { IRequestFollow } from "@/interfaces/follows.types";
+import usersRepository from "@/repositories/users.repository";
+import ErrorResponse from "@/utils/errorResponse";
 
 const followsService = {
   followUser: async (followerId: string, handle: string) => {

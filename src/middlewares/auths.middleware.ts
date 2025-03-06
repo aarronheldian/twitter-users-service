@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import ErrorResponse from "../utils/errorResponse";
-import env from "../utils/env";
-import authsService from "../services/auths.service";
-import usersRepository from "../repositories/users.repository";
-import { IUser } from "../interfaces/users.types";
+import ErrorResponse from "@/utils/errorResponse";
+import env from "@/utils/env";
+import authsService from "@/services/auths.service";
+import usersRepository from "@/repositories/users.repository";
+import { IUser } from "@/interfaces/users.types";
 
 export const isAuthenticated = async (
   req: Request,

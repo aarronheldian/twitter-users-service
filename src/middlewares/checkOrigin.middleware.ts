@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import ErrorResponse from "../utils/errorResponse";
-import env from "../utils/env";
+import ErrorResponse from "@/utils/errorResponse";
+import env from "@/utils/env";
 
 const middlewareCheckorigin = async (
   req: Request,

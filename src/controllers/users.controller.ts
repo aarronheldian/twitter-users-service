@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import usersService from "../services/users.service";
+import usersService from "@/services/users.service";
 
 const usersController = {
   handleDetailUser: async (req: Request, res: Response, next: NextFunction) => {

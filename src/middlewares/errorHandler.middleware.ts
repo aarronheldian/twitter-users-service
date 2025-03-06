@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express";
-import ErrorResponse from "../utils/errorResponse";
+import ErrorResponse from "@/utils/errorResponse";
 
 const middlewareErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   let error = { ...err };

@@ -1,6 +1,6 @@
 import express from "express";
-import { isAuthenticated } from "../middlewares/auths.middleware";
-import authsController from "../controllers/auths.controller";
+import { isAuthenticated } from "@/middlewares/auths.middleware";
+import authsController from "@/controllers/auths.controller";
 
 const authsRoute = express.Router();
 

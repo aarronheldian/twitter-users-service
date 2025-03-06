@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
-import { IUser, IUserDocument } from "../interfaces/users.types";
+import { IUser, IUserDocument } from "@/interfaces/users.types";
 import {
   IAuth,
   IRequestLogin,
   IRequestRegister,
-} from "../interfaces/auths.types";
-import ErrorResponse from "../utils/errorResponse";
-import env from "../utils/env";
-import authsRepository from "../repositories/auths.repository";
-import usersRepository from "../repositories/users.repository";
+} from "@/interfaces/auths.types";
+import ErrorResponse from "@/utils/errorResponse";
+import env from "@/utils/env";
+import authsRepository from "@/repositories/auths.repository";
+import usersRepository from "@/repositories/users.repository";
 
 const authService = {
   register: async (payload: IRequestRegister) => {
