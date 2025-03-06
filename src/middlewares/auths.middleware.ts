@@ -25,6 +25,7 @@ export const isAuthenticated = async (
     }
 
     res.locals.user = {
+      _id: user._id,
       fullName: user.fullName,
       handle: user.handle,
       email: user.email,
@@ -54,6 +55,7 @@ export const isAuthenticated = async (
         }
 
         res.locals.user = {
+          _id: user._id,
           fullName: user.fullName,
           handle: user.handle,
           email: user.email,

@@ -13,7 +13,7 @@ const authsRepository = {
   findByUserId: async (sub: string) => {
     return AuthsModel.findOne({ sub });
   },
-  findByRefrehToken: async (refreshToken: string) => {
+  findByRefreshToken: async (refreshToken: string) => {
     return AuthsModel.findOne({ refreshToken });
   },
   updateByUserId: async (sub: string, refreshToken: string) => {
@@ -22,6 +22,9 @@ const authsRepository = {
       { refreshToken },
       { new: true }
     );
+  },
+  deleteRefreshToken: async (refreshToken: string) => {
+    return AuthsModel.findOneAndDelete({ refreshToken });
   },
 };
 

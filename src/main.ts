@@ -12,6 +12,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import authsRoute from "./routes/auths.route";
 import usersRoute from "./routes/users.route";
+import followsRoute from "./routes/follows.route";
 
 const app: Express = express();
 app.set("trust proxy", 1);
@@ -51,6 +52,7 @@ app.use(middleWareCheckorigin);
 
 app.use("/auths/v1", authsRoute);
 app.use("/users/v1", usersRoute);
+app.use("/follows/v1", followsRoute);
 
 app.use(middleWareErrorHandler);
 

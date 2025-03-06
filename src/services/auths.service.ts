@@ -78,12 +78,19 @@ const authService = {
     return jwt.verify(token, secret, { issuer: env.ISSUER }) as IAuth;
   },
   verifyRefreshTokenExist: async (refreshToken: string) => {
-    const activeRefreshToken = await authsRepository.findByRefrehToken(
+    const activeRefreshToken = await authsRepository.findByRefreshToken(
       refreshToken
     );
+
     if (!activeRefreshToken)
       throw new ErrorResponse("Invalid token. Please log in again.", 401);
+
     return activeRefreshToken;
+  },
+  deleteRefreshToken: async (refreshToken?: string) => {
+    if (!refreshToken)
+      throw new ErrorResponse("No token found, already logged out.", 401);
+    await authsRepository.deleteRefreshToken(refreshToken);
   },
 };
 

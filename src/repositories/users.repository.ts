@@ -1,5 +1,5 @@
 import { ProjectionType } from "mongoose";
-import { IUser, IUserDocument } from "../interfaces/users.types";
+import { IUser } from "../interfaces/users.types";
 import UsersModel from "./models/users.schema";
 
 const usersRepository = {
@@ -16,7 +16,7 @@ const usersRepository = {
   },
   findByEmailOrHandle: async (
     query: string,
-    projection: ProjectionType<IUserDocument> = { password: 0 }
+    projection: ProjectionType<IUser> = { password: 0 }
   ) => {
     const user = await UsersModel.findOne(
       {

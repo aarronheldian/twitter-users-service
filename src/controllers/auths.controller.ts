@@ -69,6 +69,31 @@ const authsController = {
       return next(error);
     }
   },
+  handleLogout: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { refreshToken } = req.cookies;
+
+      await authsService.deleteRefreshToken(refreshToken);
+
+      return res
+        .clearCookie("accessToken", {
+          httpOnly: true,
+          secure: env.NODE_ENV === "production",
+        })
+        .clearCookie("refreshToken", {
+          httpOnly: true,
+          secure: env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json({
+          success: true,
+          code: 200,
+          message: "Logout successful.",
+        });
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
 
 export default authsController;
