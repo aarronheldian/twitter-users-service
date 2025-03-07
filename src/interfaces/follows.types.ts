@@ -6,8 +6,13 @@ export interface IFollow {
 }
 
 export interface IRequestFollow {
-  follower: Types.ObjectId | string | unknown;
-  following: Types.ObjectId | string | unknown;
+  follower: string;
+  following: string;
+}
+
+export interface IRequestGetListFollows {
+  follower?: string;
+  following?: string;
 }
 
 export interface IFollowDocument extends IFollow, Document {}

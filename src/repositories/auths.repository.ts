@@ -2,11 +2,11 @@ import { IAuth } from "@/interfaces/auths.types";
 import AuthsModel from "@/repositories/models/auths.schema";
 
 const authsRepository = {
-  insert: async ({ sub, iss, refreshToken }: IAuth) => {
+  insert: async (data: IAuth) => {
     const auths = new AuthsModel({
-      sub,
-      iss,
-      refreshToken,
+      sub: data.sub,
+      iss: data.iss,
+      refreshToken: data.refreshToken,
     });
     await auths.save();
   },

@@ -26,8 +26,11 @@ const usersRepository = {
     );
     return user;
   },
-  findById: async (id: string) => {
-    const user = await UsersModel.findById(id);
+  findById: async (
+    id: string,
+    projection: ProjectionType<IUser> = { password: 0 }
+  ) => {
+    const user = await UsersModel.findById(id, projection);
     return user;
   },
 };

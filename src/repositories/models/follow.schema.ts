@@ -6,12 +6,12 @@ const followsSchema = new Schema<IFollowDocument>(
     follower: {
       type: Schema.Types.ObjectId,
       required: [true, "Follower Id is required"],
-      ref: "User",
+      ref: "Users",
     },
     following: {
       type: Schema.Types.ObjectId,
       required: [true, "Following Id is required"],
-      ref: "User",
+      ref: "Users",
     },
   },
   { timestamps: true }
