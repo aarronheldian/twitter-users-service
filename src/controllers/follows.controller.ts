@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import followsService from "@/services/follows.service";
+import { StatusCodes } from "http-status-codes";
+import { querySchemaListFollows } from "@/schemas/follows.schema";
 
 const followsController = {
   handleFollowUser: async (req: Request, res: Response, next: NextFunction) => {
@@ -8,9 +10,9 @@ const followsController = {
 
     try {
       await followsService.followUser(follower, following);
-      return res.status(200).json({
+      return res.status(StatusCodes.CREATED).json({
         success: true,
-        code: 200,
+        code: StatusCodes.CREATED,
         message: "User successfully followed.",
       });
     } catch (error) {
@@ -27,31 +29,55 @@ const followsController = {
 
     try {
       await followsService.unfollowUser(follower, following);
-      return res.status(200).json({
+      return res.status(StatusCodes.OK).json({
         success: true,
-        code: 200,
+        code: StatusCodes.OK,
         message: "User successfully unfollowed.",
       });
     } catch (error) {
       return next(error);
     }
   },
-  handleListFollows: async (
+  handleListFollowers: async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    const { following, follower } = req.query;
+    const { userId } = req.params;
+    const { page, limit } = querySchemaListFollows.parse(req.query);
 
     try {
-      const listFollows = await followsService.getListFollows({
-        following: following as string,
-        follower: follower as string,
+      const listFollows = await followsService.getListFollowers(userId, {
+        page,
+        limit,
       });
-      return res.status(200).json({
+      return res.status(StatusCodes.OK).json({
         success: true,
-        code: 200,
-        message: "Follow list retrieved successfully.",
+        code: StatusCodes.OK,
+        message: "Followers list retrieved successfully.",
+        data: listFollows,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  },
+  handleListFollowings: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { userId } = req.params;
+    const { page, limit } = querySchemaListFollows.parse(req.query);
+
+    try {
+      const listFollows = await followsService.getListFollowings(userId, {
+        page,
+        limit,
+      });
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        code: StatusCodes.OK,
+        message: "Followings list retrieved successfully.",
         data: listFollows,
       });
     } catch (error) {

@@ -4,6 +4,7 @@ import env from "@/utils/env";
 import authsService from "@/services/auths.service";
 import usersRepository from "@/repositories/users.repository";
 import { IUser } from "@/interfaces/users.types";
+import { StatusCodes } from "http-status-codes";
 
 export const isAuthenticated = async (
   req: Request,
@@ -20,7 +21,10 @@ export const isAuthenticated = async (
 
     if (!user) {
       return next(
-        new ErrorResponse("User not found. Authentication failed.", 401)
+        new ErrorResponse(
+          "User not found. Authentication failed.",
+          StatusCodes.UNAUTHORIZED
+        )
       );
     }
 
@@ -50,7 +54,10 @@ export const isAuthenticated = async (
 
         if (!user) {
           return next(
-            new ErrorResponse("User not found. Authentication failed.", 401)
+            new ErrorResponse(
+              "User not found. Authentication failed.",
+              StatusCodes.UNAUTHORIZED
+            )
           );
         }
 
@@ -67,10 +74,18 @@ export const isAuthenticated = async (
         return next();
       } catch (error) {
         return next(
-          new ErrorResponse("Invalid token. Please log in again.", 401)
+          new ErrorResponse(
+            "Invalid token. Please log in again.",
+            StatusCodes.UNAUTHORIZED
+          )
         );
       }
     }
-    return next(new ErrorResponse("Invalid token. Please log in again.", 401));
+    return next(
+      new ErrorResponse(
+        "Invalid token. Please log in again.",
+        StatusCodes.UNAUTHORIZED
+      )
+    );
   }
 };

@@ -1,15 +1,15 @@
 import followsRepository from "@/repositories/follows.repository";
-import {
-  IRequestFollow,
-  IRequestGetListFollows,
-} from "@/interfaces/follows.types";
+import { IRequestFollow } from "@/interfaces/follows.types";
 import usersRepository from "@/repositories/users.repository";
 import ErrorResponse from "@/utils/errorResponse";
+import { IPagination } from "@/interfaces/list.types";
+import { StatusCodes } from "http-status-codes";
 
 const followsService = {
   followUser: async (follower: string, following: string) => {
     const followingData = await usersRepository.findById(following);
-    if (!followingData) throw new ErrorResponse("User not found.", 404);
+    if (!followingData)
+      throw new ErrorResponse("User not found.", StatusCodes.NOT_FOUND);
 
     const data: IRequestFollow = {
       follower: follower,
@@ -20,7 +20,8 @@ const followsService = {
   },
   unfollowUser: async (follower: string, following: string) => {
     const followingData = await usersRepository.findById(following);
-    if (!followingData) throw new ErrorResponse("User not found.", 404);
+    if (!followingData)
+      throw new ErrorResponse("User not found.", StatusCodes.NOT_FOUND);
 
     const data: IRequestFollow = {
       follower: follower,
@@ -29,24 +30,27 @@ const followsService = {
     const follow = await followsRepository.delete(data);
     return follow;
   },
-  getListFollows: async ({ follower, following }: IRequestGetListFollows) => {
-    if (follower) {
-      const followerData = await usersRepository.findById(follower);
-      if (!followerData) throw new ErrorResponse("User not found.", 404);
-    }
+  getListFollowers: async (userId: string, options: IPagination) => {
+    const userData = await usersRepository.findById(userId);
+    if (!userData)
+      throw new ErrorResponse("User not found.", StatusCodes.NOT_FOUND);
 
-    if (following) {
-      const followingData = await usersRepository.findById(following);
-      if (!followingData) throw new ErrorResponse("User not found.", 404);
-    }
+    const followers = await followsRepository.findFollowers(userId, options);
 
-    let filter: IRequestGetListFollows = {};
-    if (follower) filter.follower = follower;
-    if (following) filter.following = following;
+    const normalizeFollowers = followers.map(({ follower }) => follower);
 
-    const follows = await followsRepository.find(filter);
+    return normalizeFollowers;
+  },
+  getListFollowings: async (userId: string, options: IPagination) => {
+    const userData = await usersRepository.findById(userId);
+    if (!userData)
+      throw new ErrorResponse("User not found.", StatusCodes.NOT_FOUND);
 
-    return follows;
+    const followings = await followsRepository.findFollowings(userId, options);
+
+    const normalizeFollowings = followings.map(({ following }) => following);
+
+    return normalizeFollowings;
   },
 };
 

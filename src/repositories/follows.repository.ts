@@ -1,7 +1,5 @@
-import {
-  IRequestFollow,
-  IRequestGetListFollows,
-} from "@/interfaces/follows.types";
+import { IRequestFollow } from "@/interfaces/follows.types";
+import { IPagination } from "@/interfaces/list.types";
 import FollowsModel from "@/repositories/models/follow.schema";
 
 const followsRepository = {
@@ -16,16 +14,23 @@ const followsRepository = {
   delete: async (filter: IRequestFollow) => {
     return FollowsModel.findOneAndDelete(filter);
   },
-  find: async (filter: IRequestGetListFollows) => {
-    return FollowsModel.find(filter)
+  findFollowers: async (userId: string, { page, limit }: IPagination) => {
+    return FollowsModel.find({ following: userId })
       .populate({
         path: "follower",
         select: "fullName handle profilePicture",
       })
+      .skip((page - 1) * limit)
+      .limit(limit);
+  },
+  findFollowings: async (userId: string, { page, limit }: IPagination) => {
+    return FollowsModel.find({ follower: userId })
       .populate({
         path: "following",
         select: "fullName handle profilePicture",
-      });
+      })
+      .skip((page - 1) * limit)
+      .limit(limit);
   },
 };
 

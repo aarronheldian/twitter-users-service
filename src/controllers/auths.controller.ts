@@ -2,15 +2,16 @@ import { NextFunction, Request, Response } from "express";
 import authsService from "@/services/auths.service";
 import { IRequestLogin, IRequestRegister } from "@/interfaces/auths.types";
 import env from "@/utils/env";
+import { StatusCodes } from "http-status-codes";
 
 const authsController = {
   handleRegister: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const payload: IRequestRegister = req.body;
       const data = await authsService.register(payload);
-      return res.status(201).json({
+      return res.status(StatusCodes.CREATED).json({
         success: true,
-        code: 201,
+        code: StatusCodes.CREATED,
         message: "User created successfully.",
         data: {
           email: data.email,
@@ -47,10 +48,10 @@ const authsController = {
           httpOnly: true,
           secure: env.NODE_ENV === "production",
         })
-        .status(200)
+        .status(StatusCodes.OK)
         .json({
           success: true,
-          code: 200,
+          code: StatusCodes.OK,
           message: "Login successful.",
         });
     } catch (error) {
@@ -59,9 +60,9 @@ const authsController = {
   },
   handleMyProfile: async (_: Request, res: Response, next: NextFunction) => {
     try {
-      return res.status(200).json({
+      return res.status(StatusCodes.OK).json({
         success: true,
-        code: 200,
+        code: StatusCodes.OK,
         data: res?.locals?.user,
         message: "Auth successfully.",
       });
@@ -84,10 +85,10 @@ const authsController = {
           httpOnly: true,
           secure: env.NODE_ENV === "production",
         })
-        .status(200)
+        .status(StatusCodes.OK)
         .json({
           success: true,
-          code: 200,
+          code: StatusCodes.OK,
           message: "Logout successful.",
         });
     } catch (error) {

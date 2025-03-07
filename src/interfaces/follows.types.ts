@@ -15,4 +15,8 @@ export interface IRequestGetListFollows {
   following?: string;
 }
 
+export interface IRequestGetListFollowers {
+  following: string;
+}
+
 export interface IFollowDocument extends IFollow, Document {}

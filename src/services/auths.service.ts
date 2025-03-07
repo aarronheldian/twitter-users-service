@@ -9,6 +9,7 @@ import ErrorResponse from "@/utils/errorResponse";
 import env from "@/utils/env";
 import authsRepository from "@/repositories/auths.repository";
 import usersRepository from "@/repositories/users.repository";
+import { StatusCodes } from "http-status-codes";
 
 const authService = {
   register: async (payload: IRequestRegister) => {
@@ -36,10 +37,11 @@ const authService = {
     const user = await usersRepository.findByEmailOrHandle(email, {
       password: 1,
     });
-    if (!user) throw new ErrorResponse("User not found.", 404);
+    if (!user)
+      throw new ErrorResponse("User not found.", StatusCodes.NOT_FOUND);
     const isPasswordMatched = await user.comparePassword(password);
     if (!isPasswordMatched)
-      throw new ErrorResponse("Invalid credentials.", 400);
+      throw new ErrorResponse("Invalid credentials.", StatusCodes.BAD_REQUEST);
     return user;
   },
   generateToken: async (
@@ -83,13 +85,19 @@ const authService = {
     );
 
     if (!activeRefreshToken)
-      throw new ErrorResponse("Invalid token. Please log in again.", 401);
+      throw new ErrorResponse(
+        "Invalid token. Please log in again.",
+        StatusCodes.UNAUTHORIZED
+      );
 
     return activeRefreshToken;
   },
   deleteRefreshToken: async (refreshToken?: string) => {
     if (!refreshToken)
-      throw new ErrorResponse("No token found, already logged out.", 401);
+      throw new ErrorResponse(
+        "No token found, already logged out.",
+        StatusCodes.UNAUTHORIZED
+      );
     await authsRepository.deleteRefreshToken(refreshToken);
   },
 };

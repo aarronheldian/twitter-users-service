@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import usersService from "@/services/users.service";
+import { StatusCodes } from "http-status-codes";
 
 const usersController = {
   handleDetailUser: async (req: Request, res: Response, next: NextFunction) => {
@@ -7,9 +8,9 @@ const usersController = {
 
     try {
       const data = await usersService.getDetailUser(handle);
-      return res.status(200).json({
+      return res.status(StatusCodes.OK).json({
         success: true,
-        code: 200,
+        code: StatusCodes.OK,
         message: "User created successfully.",
         data: data,
       });
