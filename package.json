@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main.ts",
   "scripts": {
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "rimraf dist && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "add-build": "git add dist",
     "start": "node dist/main.js",
     "dev": "nodemon -r tsconfig-paths/register src/main.ts"
@@ -53,6 +53,7 @@
     "@types/node": "^22.5.2",
     "nodemon": "^3.1.4",
     "pre-commit": "^1.2.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.11",
     "typescript": "^5.5.4"
