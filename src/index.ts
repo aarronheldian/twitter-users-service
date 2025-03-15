@@ -59,3 +59,5 @@ app.use(middleWareErrorHandler);
 app.listen(env.PORT, () => {
   console.log(`[server]: server is running at http://localhost:${env.PORT}`);
 });
+
+export default app;
