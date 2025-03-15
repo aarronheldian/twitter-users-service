@@ -12,14 +12,5 @@
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
-  ],
-  "functions": {
-    "api/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist",
-  "handle": [{ "src": "/.*", "dest": "/dist/index.js" }]
+  ]
 }
